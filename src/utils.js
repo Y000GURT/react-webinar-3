@@ -26,3 +26,28 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+// Генератор нового уникально кода
+// Может конечно надо было новый файл создать))
+export function generateCode(maxCode) {
+  let id = maxCode;
+
+  return function*() {
+    while (true) {
+      yield id++;
+    }
+  }
+}
+
+// Склоение слова "раз"
+export function declineWord(number) {
+  const remainder10 = number % 10;
+  const remainder100 = number % 100;
+
+  if ([2,3,4].includes(remainder10) && ![12,13,14].includes(remainder100)) {
+    return 'раза';
+  }
+  else {
+    return 'раз';
+  }
+}
