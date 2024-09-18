@@ -1,0 +1,35 @@
+.Modal-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color:#000000B2;
+    z-index: 10;
+}
+.Modal-content {
+    overflow: hidden;
+    width: 960px;
+    height: auto;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px #00000080;
+    border-radius: 10px;
+}
+.Modal-list {
+    padding: 71px 0;
+}
+.Modal-total {
+    margin-top: 20px;
+    padding: 0 120px 0 0;
+
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 53px;
+}
+.Modal-empty {
+    text-align: center;
+}

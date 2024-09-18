@@ -1,44 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { plural } from '../../utils';
 import './style.css';
 
-function Item(props) {
-  // Счётчик выделений
-  const [count, setCount] = useState(0);
-
-  const callbacks = {
-    onClick: () => {
-      props.onSelect(props.item.code);
-      if (!props.item.selected) {
-        setCount(count + 1);
-      }
-    },
-    onDelete: e => {
-      e.stopPropagation();
-      props.onDelete(props.item.code);
-    },
-  };
-
+function Item({ item, mode = 'page', onAddToBasket = () => {}, onDeleteFromBasket = () => {}}) {
   return (
-    <div
-      className={'Item' + (props.item.selected ? ' Item_selected' : '')}
-      onClick={callbacks.onClick}
-    >
-      <div className="Item-code">{props.item.code}</div>
-      <div className="Item-title">
-        {props.item.title}{' '}
-        {count
-          ? ` | Выделяли ${count} ${plural(count, {
-              one: 'раз',
-              few: 'раза',
-              many: 'раз',
-            })}`
-          : ''}
+    <div className='Item'>
+      <div className='Item-left'>
+        <div className="Item-code"> { item.code } </div>
+        <div className="Item-title"> { item.title } </div>
       </div>
-      <div className="Item-actions">
-        <button onClick={callbacks.onDelete}>Удалить</button>
-      </div>
+
+      {
+        mode === 'modal'
+        ?
+        <div className="Item-right">
+          <div className='Item-price'> {item.price + ' ₽'} </div>
+          <div className='Item-price'> {item.quantity + ' шт'} </div>
+          <button onClick={() => onDeleteFromBasket(item.code)}>Удалить</button>
+        </div>
+        :
+        <div className="Item-right">
+          <div className='Item-price'> {item.price + ' ₽'} </div>
+          <button onClick={() => onAddToBasket(item)}>Добавить</button>
+        </div>
+      }
     </div>
   );
 }
@@ -50,13 +35,9 @@ Item.propTypes = {
     selected: PropTypes.bool,
     count: PropTypes.number,
   }).isRequired,
-  onDelete: PropTypes.func,
-  onSelect: PropTypes.func,
-};
-
-Item.defaultProps = {
-  onDelete: () => {},
-  onSelect: () => {},
+  mode: PropTypes.string,
+  onAddToBasket: PropTypes.func,
+  onDeleteFromBasket: PropTypes.func,
 };
 
 export default React.memo(Item);
