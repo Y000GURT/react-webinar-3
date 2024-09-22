@@ -5,6 +5,7 @@ import Head from './components/head';
 import PageLayout from './components/page-layout';
 import useModal from './hooks/useModal';
 import Modal from './components/modal';
+import './components/modal/style.css';
 
 /**
  * Приложение
@@ -13,6 +14,7 @@ import Modal from './components/modal';
  */
 function App({ store }) {
   const list = store.getState().list;
+  const basket = store.getState().basket;
   const [isShowingModal, toggleModal] = useModal();
 
   const callbacks = {
@@ -32,7 +34,25 @@ function App({ store }) {
 
   return (
     <PageLayout>
-      <Modal store={store} show={isShowingModal} toggleModal={toggleModal}/>
+      <Modal store={store} show={isShowingModal}>
+        <Head title="Корзина" mode="modal" onClose={toggleModal}></Head>
+
+        <div className='Modal-list'>
+            {store.state.basket.length === 0
+            ?
+            <h2 className='Modal-empty'>Корзина пуста</h2>
+            :
+            <>
+                <List list={basket} mode='modal' onDeleteFromBasket={callbacks.onDeleteFromBasket}/>
+                <div className='Modal-total'> 
+                    <b>Итого</b>
+                    <b>{store.getPriceBasket().toLocaleString('fr-FR')} ₽</b>
+                </div>
+            </>
+            }
+        </div>
+      </Modal>
+
       <Head title="Магазин" />
       <Controls count={store.getCountBasket()} price={store.getPriceBasket()} onAdd={callbacks.onAddItem} onOpen={toggleModal}/>
       <List

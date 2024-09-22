@@ -49,14 +49,14 @@ class Store {
   }
 
   // Добавление товара в корзину
-  addToBasket(item) {
+  addToBasket(code) {
     // если товар уже есть в корзине
-    const isFounded = this.state.basket.find(itemBasket => itemBasket.code === item.code)
+    const isFounded = this.state.basket.find(item => item.code === code)
     if (isFounded) {
       this.setState({
         ...this.state,
         basket: this.state.basket.map(itemBasket => {
-          if (itemBasket.code === item.code) {
+          if (itemBasket.code === code) {
             return {
               ...itemBasket,
               // то просто меняем количество
@@ -69,9 +69,10 @@ class Store {
     }
     // если нет, то добавляем в корзину
     else {
+      const foundItem = this.state.list.find(item => item.code === code);
       this.setState({
         ...this.state,
-        basket: [...this.state.basket, {...item, quantity: 1}]
+        basket: [...this.state.basket, {...foundItem, quantity: 1}]
       })
     }
   }

@@ -10,7 +10,7 @@ function Controls({ count, price, onOpen }) {
       <div className='Controls-basket'>В корзине:</div>
       {
         count
-          ? <b className='Controls-info'>{count} {plural(count, {one: 'товар', few: 'товара', many: 'товаров'})} / {price} ₽</b>
+          ? <b className='Controls-info'>{count} {plural(count, {one: 'товар', few: 'товара', many: 'товаров'})} / {price.toLocaleString('fr-FR')} ₽</b>
           : <b className='Controls-info'>пусто</b>
       }
       <button className='Controls-button' onClick={onOpen}>Перейти</button>

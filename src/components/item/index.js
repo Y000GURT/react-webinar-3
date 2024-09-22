@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 
-function Item({ item, mode = 'page', onAddToBasket = () => {}, onDeleteFromBasket = () => {}}) {
+function Item({ item, onAddToBasket = () => {}}) {
   return (
     <div className='Item'>
       <div className='Item-left'>
@@ -10,20 +10,10 @@ function Item({ item, mode = 'page', onAddToBasket = () => {}, onDeleteFromBaske
         <div className="Item-title"> { item.title } </div>
       </div>
 
-      {
-        mode === 'modal'
-        ?
-        <div className="Item-right">
-          <div className='Item-price'> {item.price + ' ₽'} </div>
-          <div className='Item-price'> {item.quantity + ' шт'} </div>
-          <button onClick={() => onDeleteFromBasket(item.code)}>Удалить</button>
-        </div>
-        :
-        <div className="Item-right">
-          <div className='Item-price'> {item.price + ' ₽'} </div>
-          <button onClick={() => onAddToBasket(item)}>Добавить</button>
-        </div>
-      }
+      <div className="Item-right">
+        <div className='Item-price'> {item.price.toLocaleString('fr-FR') + ' ₽'} </div>
+        <button onClick={() => onAddToBasket(item.code)}>Добавить</button>
+      </div>
     </div>
   );
 }
@@ -35,9 +25,7 @@ Item.propTypes = {
     selected: PropTypes.bool,
     count: PropTypes.number,
   }).isRequired,
-  mode: PropTypes.string,
   onAddToBasket: PropTypes.func,
-  onDeleteFromBasket: PropTypes.func,
 };
 
 export default React.memo(Item);

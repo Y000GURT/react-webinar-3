@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Item from '../item';
+import ItemBasket from '../itemBasket';
 import './style.css';
 
 function List({ list, mode = 'page', onAddToBasket = () => {}, onDeleteFromBasket = () => {}}) {
@@ -8,7 +9,12 @@ function List({ list, mode = 'page', onAddToBasket = () => {}, onDeleteFromBaske
     <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} mode={mode} onAddToBasket={onAddToBasket} onDeleteFromBasket={onDeleteFromBasket}/>
+          {mode === 'page'
+          ?
+          <Item item={item} onAddToBasket={onAddToBasket}/>
+          :
+          <ItemBasket item={item} onDeleteFromBasket={onDeleteFromBasket}/>
+          }
         </div>
       ))}
     </div>
