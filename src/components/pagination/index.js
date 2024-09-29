@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
-import useStore from '../../store/use-store';
 import './style.css';
 
-function Pagination({ count }) {
+function Pagination({currentPage, countPages, setCurrentPage, load}) {
     const cn = bem('Pagination');
-    const store = useStore();
-    const [currentPage, setCurrentPage] = useState(1);
-
+    
     function generatePageNumbers() {
         const pageNumbers = [];
-        const countPages = Math.ceil(count / 10);
         const left = currentPage - 1 // левое соседнее число
         const right = currentPage + 1 // правое соседнее число
 
@@ -61,7 +58,7 @@ function Pagination({ count }) {
         return pageNumbers; 
     }
     function handleNext(page) {
-        store.actions.catalog.load(10, (page - 1) * 10);
+        load(10, (page - 1) * 10);
     }
     return ( 
         <div className={cn()}>
@@ -82,4 +79,12 @@ function Pagination({ count }) {
     );
 
 }
+
+Pagination.propTypes = {
+    currentPage: PropTypes.number,
+    countPages: PropTypes.number,
+    setCurrentPage: PropTypes.func,
+    load: PropTypes.func,
+};
+
 export default React.memo(Pagination)

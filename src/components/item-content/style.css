@@ -1,0 +1,7 @@
+.DescriptionContent {
+    padding: 0 40px;
+}
+
+.DescriptionContent p:last-of-type {
+    font-size: 24px;
+}

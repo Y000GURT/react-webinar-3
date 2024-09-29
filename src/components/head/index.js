@@ -1,28 +1,21 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
-import useStore from '../../store/use-store';
+import LanguageSwitcher from '../language-switcher/language-switcher';
 import './style.css';
 
-function Head({ title }) {
-  // const [language, setLanguage] = useState('ru');
-  const store = useStore();
-
-  function handleChange(event) {
-    store.actions.language.switchLanguage(event.target.value);
-  }
+function Head({ title, switchLanguage, languageMode }) {
   return (
     <div className="Head">
       <h1>{title}</h1>
-      <select onChange={handleChange}>
-        <option value='ru'>RU</option>
-        <option value='en'>EN</option>
-      </select>
+      <LanguageSwitcher switchLanguage={switchLanguage} languageMode={languageMode}/>
     </div>
   );
 }
 
 Head.propTypes = {
   title: PropTypes.node,
+  switchLanguage: PropTypes.func,
+  languageMode: PropTypes.string,
 };
 
 export default memo(Head);

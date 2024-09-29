@@ -19,7 +19,7 @@ function BasketTool({ sum, amount, onOpen, resource }) {
                 few: 'товара',
                 many: 'товаров',
               })} / ${numberFormat(sum)} ₽`
-            : `пусто`}
+            : resource.empty}
         </span>
         <button className={cn('button')} onClick={onOpen}>{resource.goTo}</button>
       </div>

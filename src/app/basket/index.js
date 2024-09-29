@@ -14,7 +14,7 @@ function Basket() {
     list: state.basket.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    language: state.basket.languageMode,
+    language: state.language.languageMode,
   }));
 
   const callbacks = {
