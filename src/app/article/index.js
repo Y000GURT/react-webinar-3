@@ -10,7 +10,7 @@ import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
-
+import Header from '../../containers/header';
 /**
  * Страница товара с первичной загрузкой товара по id из url адреса
  */
@@ -38,9 +38,7 @@ function Article() {
 
   return (
     <PageLayout>
-      <Head title={select.article.title}>
-        <LocaleSelect />
-      </Head>
+      <Header title={select.article.title} auth={t('auth')}/>
       <Navigation />
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />

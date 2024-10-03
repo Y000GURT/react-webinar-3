@@ -1,0 +1,10 @@
+.LoginForm > *:not(:first-child){
+    margin-top: 15px;
+}
+.LoginForm-title {
+    font-size: 24px;
+    margin: 0;
+}
+.LoginForm-error {
+    color: red;
+}

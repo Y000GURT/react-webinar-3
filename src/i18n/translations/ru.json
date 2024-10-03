@@ -1,5 +1,10 @@
 {
   "title": "Магазин",
+  "auth": "Вход",
+  "logout": "Выход",
+  "logIn": "Войти",
+  "login": "Логин",
+  "password": "Пароль",
   "menu.main": "Главная",
   "basket.title": "Корзина",
   "basket.open": "Перейти",
