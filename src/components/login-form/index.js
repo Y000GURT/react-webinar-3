@@ -46,7 +46,8 @@ LoginForm.propTypes = {
     login: PropTypes.string,
     password: PropTypes.string,
     logIn: PropTypes.string,
-    onLogin: PropTypes.func
+    onLogin: PropTypes.func,
+    error: PropTypes.string,
 }
 
 export default React.memo(LoginForm);
