@@ -82,7 +82,6 @@ class AuthState extends StoreModule {
     }
     async logout() {
         try {
-            console.log(this.getState().token)
             const response = await fetch("api/v1/users/sign", {
                 method: "DELETE",
                 headers: {
