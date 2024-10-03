@@ -48,6 +48,7 @@ class AuthState extends StoreModule {
     }
     async autoLogin() {
         const token = localStorage.getItem("token");
+        
         if (token) {
             try {
                 const response = await fetch("api/v1/users/self?fields=*", {
