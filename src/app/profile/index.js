@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PageLayout from '../../components/page-layout';
 import Header from '../../containers/header';
 import Navigation from '../../containers/navigation';
@@ -10,7 +10,7 @@ function Profile() {
     const { t } = useTranslate();
 
     const select = useSelector(state => ({
-        user: state.auth.user
+        user: state.auth.user,
     }));
 
     return ( 

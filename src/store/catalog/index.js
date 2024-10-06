@@ -39,6 +39,7 @@ class CatalogState extends StoreModule {
       validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+    if (urlParams.has('category')) validParams.category = urlParams.get('category');
     await this.setParams({ ...this.initState().params, ...validParams, ...newParams }, true);
   }
 
@@ -62,7 +63,6 @@ class CatalogState extends StoreModule {
    */
   async setParams(newParams = {}, replaceHistory = false) {
     const params = { ...this.getState().params, ...newParams };
-
     // Установка новых параметров и признака загрузки
     this.setState(
       {
@@ -82,7 +82,6 @@ class CatalogState extends StoreModule {
       window.history.pushState({}, '', url);
     }
 
-    // console.log(params)
     const apiParams = {
       limit: params.limit,
       skip: (params.page - 1) * params.limit,
@@ -106,46 +105,6 @@ class CatalogState extends StoreModule {
       },
       'Загружен список товаров из АПИ',
     );
-  }
-  async getListCategories() {
-    const response = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)`);
-    const json = await response.json();
-
-    this.setState({
-      ...this.getState(),
-      categories: this.sortCategories(json.result.items),
-    });
-  }
-  sortCategories(categories) {
-    const sortedСategories = [];
-    let countParents = 0;
-
-    categories = categories.sort(item => item.parent ? 1 : -1);
-
-    function addItem(item) {
-      // если категории item еще нет
-      if (!sortedСategories.find(item1 => item1._id === item._id)) { 
-        sortedСategories.push({...item, title: '- '.repeat(countParents) + item.title})
-      }
-      countParents++;
-
-      categories.forEach(child => {
-        if (!child.parent) { 
-          return
-        }
-        // если мы нашли ребенка от item
-        if (child.parent._id === item._id) {
-          addItem(child);
-        }
-      })
-      countParents--
-    }
-
-    categories.forEach(item => {
-      addItem(item);
-    });
-
-    return sortedСategories;
   }
 
 }

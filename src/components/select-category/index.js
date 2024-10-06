@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './style.css'
 
-function SelectCategory({ category, onChange }) {
+function SelectCategory({ category, onChange, value }) {
     function onSelect(e) {
         onChange(e.target.value);
     }
     return ( 
-        <select className='SelectCategory' onChange={onSelect}>
+        <select className='SelectCategory' onChange={onSelect} value={value}>
             <option value=''>Всe</option>
             {
                 category.map(item => (
@@ -28,5 +28,6 @@ SelectCategory.propTypes = {
         }),
     ).isRequired,
     onChange: PropTypes.func,
+    value: PropTypes.string,
 }
-export default SelectCategory;
+export default React.memo(SelectCategory);

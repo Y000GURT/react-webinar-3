@@ -17,7 +17,7 @@ function Header() {
     }))
     const callbacks = {
         onAuth: useCallback(() => navigate('/auth'), [store]),
-        logout: useCallback(() => {store.actions.auth.logout(); navigate('/auth')}, [store])
+        logout: useCallback(() => {store.actions.auth.logout(); }, [store])
     }
     const { t } = useTranslate();
     return ( 

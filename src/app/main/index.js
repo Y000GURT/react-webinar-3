@@ -11,7 +11,6 @@ import Header from '../../containers/header';
  */
 function Main() {
   const store = useStore();
-
   useInit(
     () => {
       store.actions.catalog.initParams();

@@ -3,11 +3,16 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   padding: 0;
-  margin-left: -5px;
-  margin-right: -5px;
+  /* margin-left: -5px;
+  margin-right: -5px; */
   align-items: center;
 }
-
+.SideLayout_border_none {
+  border: none;
+}
+.SideLayout_border_bottom {
+  border-bottom: solid 1px #DCDCDC;
+}
 .SideLayout_side_start {
   justify-content: flex-start;
 }

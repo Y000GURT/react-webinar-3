@@ -13,12 +13,13 @@ import useInit  from '../../hooks/use-init';
 function CatalogFilter() {
   const store = useStore();
 
-  useInit(() => store.actions.catalog.getListCategories(), [])
+  useInit(() => store.actions.category.getListCategories(), [])
 
   const select = useSelector(state => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
-    categories: state.catalog.categories,
+    categories: state.category.categories,
+    category: state.catalog.params.category,
   }));
 
   const callbacks = {
@@ -48,7 +49,7 @@ function CatalogFilter() {
 
   return (
     <SideLayout padding="medium">
-      <SelectCategory category={select.categories} onChange={callbacks.onCategory}/>
+      <SelectCategory category={select.categories} value={select.category} onChange={callbacks.onCategory}/>
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
       <Input
         value={select.query}

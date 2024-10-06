@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import useSelector from '../hooks/use-selector';
 import useStore from '../hooks/use-store';
@@ -15,17 +15,22 @@ import PrivateRoute from './private-route';
 function App() {
   const activeModal = useSelector(state => state.modals.name);
   const store = useStore()
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect( () => {
-    store.actions.auth.autoLogin()
+  useEffect(async () => {
+      await store.actions.auth.autoLogin()
+      setIsLoading(false)
   }, [])
+
+  if (isLoading) return null
+
   return (
     <>
       <Routes>
         <Route path={''} element={<Main />} />
         <Route path={'/articles/:id'} element={<Article />} />
-        <Route path={'/auth'} element={<AuthPage />} />
-        <Route path={'/profile'} element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path={'/auth'} element={<AuthPage/>} />
+        <Route path={'/profile'} element={<PrivateRoute> <Profile/> </PrivateRoute>} />
       </Routes>
 
       {activeModal === 'basket' && <Basket />}

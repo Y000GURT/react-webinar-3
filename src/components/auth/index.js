@@ -6,7 +6,7 @@ import './style.css';
 
 function Auth({ auth, onAuth, name, isAuth }) {
     return ( 
-        <SideLayout padding="medium" side="end">
+        <SideLayout padding="medium" side="end" border="bottom">
             <div className='Auth'>
                 {
                     isAuth 

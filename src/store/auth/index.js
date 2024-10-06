@@ -25,7 +25,7 @@ class AuthState extends StoreModule {
             const json = await response.json();
 
             if (!response.ok) {
-                throw new Error(`Error ${json.error.id}: ${json.error.message}`);
+                throw new Error(json.error.data.issues[0].message);
             }
 
             this.setState({
@@ -33,7 +33,7 @@ class AuthState extends StoreModule {
                 user: {
                     name: json.result.user.profile.name,
                     email: json.result.user.email,
-                    phone: json.result.user.profile.phone
+                    phone: json.result.user.profile.phone,
                 },
                 token: json.result.token,
                 isAuth: true,
@@ -43,7 +43,7 @@ class AuthState extends StoreModule {
             localStorage.setItem("token", json.result.token);
 
         } catch (error) {
-            this.setState({ ...this.getState(), errorMessage: error.message });
+            this.setState({ ...this.getState(), errorMessage: error.message});
         }
     }
     async autoLogin() {
@@ -51,7 +51,7 @@ class AuthState extends StoreModule {
         
         if (token) {
             try {
-                const response = await fetch("api/v1/users/self?fields=*", {
+                const response = await fetch("api/v1/users/self?fields=profile(name,phone),email", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ class AuthState extends StoreModule {
                 const json = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(`Error ${json.error.id}: ${json.error.message}`);
+                    throw new Error(json.error.data.issues[0].message);
                 }
 
                 this.setState({
@@ -69,7 +69,7 @@ class AuthState extends StoreModule {
                     user: {
                         name: json.result.profile.name,
                         email: json.result.email,
-                        phone: json.result.profile.phone
+                        phone: json.result.profile.phone,
                     },
                     token: token,
                     isAuth: true,
@@ -77,7 +77,7 @@ class AuthState extends StoreModule {
                 });
             }
             catch (error) {
-                alert(error)
+                alert(error.message)
             }
         }
     }
@@ -93,7 +93,7 @@ class AuthState extends StoreModule {
             const json = await response.json();
 
             if (!response.ok) { 
-                throw new Error(`${json.error.id}: ${json.error.message}`);
+                throw new Error(json.error.data.issues[0].message);
             }
 
             this.setState({
@@ -103,8 +103,11 @@ class AuthState extends StoreModule {
             localStorage.removeItem("token");
         }
         catch (error) {
-            alert(error)
+            alert(error.message)
         }
+    }
+    clearErrors() {
+        this.setState({ ...this.getState(), errorMessage: '' });
     }
 }
 
