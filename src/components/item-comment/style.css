@@ -1,0 +1,64 @@
+.ItemComment {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 10px;
+
+    width: 100%;
+}
+.ItemComment-level-1 {
+    margin-left: 0;
+}
+.ItemComment-level-2{
+    margin-left: 30px;
+    width: calc(100% - 30px);
+}
+.ItemComment-level-3 {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+}
+.ItemComment-level-4 {
+    margin-left: 90px;
+    width: calc(100% - 90px);
+}
+
+.ItemComment-header {
+    display: flex;
+    justify-content: flex-start;
+
+    gap: 10px;
+}
+
+.ItemComment-user {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.ItemComment-datetime {
+    font-size: 12px;
+    color: #666666;
+}
+
+.ItemComment-text {
+    font-size: 14px;
+}
+
+.ItemComment-answer {
+    color: #0087E9;
+    font-size: 12px;
+    cursor: pointer;
+}
+.ItemComment-answer:hover {
+    text-decoration: underline;
+}
+
+.ItemComment-login {
+    margin-top: 30px;
+}
+.ItemComment-cancel {
+    color: #666666;
+    cursor: pointer;
+}
+.ItemComment-cancel:hover {
+    text-decoration: underline;
+}

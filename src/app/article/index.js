@@ -13,6 +13,10 @@ import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector } from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import commentsActions from '../../store-redux/comments/actions';
+import Comments from '../../containers/comments';
+import treeToList from '../../utils/tree-to-list';
+import listToTree from '../../utils/list-to-tree';
 
 function Article() {
   const store = useStore();
@@ -22,15 +26,17 @@ function Article() {
 
   const params = useParams();
 
-  useInit(() => {
-    //store.actions.article.load(params.id);
-    dispatch(articleActions.load(params.id));
-  }, [params.id]);
+  useInit(async () => {
+    await Promise.all([dispatch(articleActions.load(params.id)), dispatch(commentsActions.load(params.id))]);
+  }, [params.id], true);
 
   const select = useSelector(
     state => ({
       article: state.article.data,
       waiting: state.article.waiting,
+      comments: state.comments.data,
+      count: state.comments.count,
+      waitingComments: state.comments.waiting,
     }),
     shallowequal,
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
@@ -42,6 +48,20 @@ function Article() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
   };
 
+  const options = {
+    comments: useMemo(
+      () => [
+        ...treeToList(listToTree(select.comments), (item, level) => ({
+          name: item.author?.profile?.name,
+          datetime: item.dateCreate,
+          value: item._id,
+          text: item.text,
+          level: level,
+        })),
+      ],
+      [select.comments],
+    ),
+  };
   return (
     <PageLayout>
       <TopHead />
@@ -51,6 +71,9 @@ function Article() {
       <Navigation />
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
+      </Spinner>
+      <Spinner active={select.waitingComments}>
+        <Comments comments={options.comments} count={select.count} productId={params.id} />
       </Spinner>
     </PageLayout>
   );

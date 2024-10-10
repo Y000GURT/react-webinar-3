@@ -1,0 +1,22 @@
+.FormComment {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.FormComment-title {
+    font-size: 12px;
+    margin: 0;
+}
+
+.FormComment-textarea {
+    width: 100%;
+    font-size: 14px;
+    resize: none;
+}
+
+.FormComment-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
