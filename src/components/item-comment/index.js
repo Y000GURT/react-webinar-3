@@ -6,47 +6,54 @@ import FormComment from '../form-comment';
 import useTranslate from '../../hooks/use-translate';
 import './style.css';
 
-function ItemComment({ id, name, text, datetime, level, answer, exists, setIdActiveAnswer, idActiveAnswer, sendComment }) {
+function ItemComment(props) {
     const cn = bem('ItemComment');
     const { t } = useTranslate();
     
     const computedLevel = useMemo(() => {
-        if (level > 4) return 4;
-        return level
-    })
+        if (props.level > 10) return 10;
+        return props.level
+    }, [props.level])
     
+    const correctDatetime = useMemo(() => {
+        const date = new Date(props.datetime);
+        const options = {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }
+        return date.toLocaleDateString('ru-RU', options).replace(' г.', '');
+    }, [props.datetime])
+
+    function handleAnswer() {
+        props.setFormAnswerIsActive(props.id)
+        props.addForm(props.id, props.level)
+    }
     return ( 
         <div className={cn() + ' ' + cn(`level-${computedLevel}`)}>
             <div className={cn('header')}>
-                <div className={cn('user')}>{ name }</div>
-                <div className={cn('datetime')}> { datetime }</div>
+                <div className={cn('user')}>{ props.name }</div>
+                <div className={cn('datetime')}> { correctDatetime }</div>
             </div>
             <div className={cn('text')}>
-                { text }
+                { props.text }
             </div>
-            <span className={cn('answer')} onClick={() => setIdActiveAnswer(id)}>{ answer }</span>
+            <span className={cn('answer')} onClick={handleAnswer}>{ props.answer }</span>
             {
-                idActiveAnswer === id ?
-                (
-                    exists ? 
-                    <FormComment 
-                        mode="answer" 
-                        title={t('form.comment.title')} 
-                        id={id} 
-                        setIdActiveAnswer={setIdActiveAnswer}
-                        sendComment={sendComment} 
-                        type='comment'
-                    />
-                    :
-                    <div className={cn('login')}> 
-                        <span><Link to="/login">Войдите</Link>, чтобы оставлять комментарии. </span>
-                        <span className={cn('cancel')} onClick={() => setIdActiveAnswer(null)}>Отмена</span>
-                    </div> 
-                )
-                :
-                null
+                props.formAnswerIsActive && props.index1 === props.index2 &&
+                <FormComment 
+                    mode="answer" 
+                    title={t('form.comment.title.answer')} 
+                    sendComment={props.sendComment} 
+                    exists={props.exists}
+                    type='comment'
+                    setFormCommentIsActive={props.setFormCommentIsActive}
+                    currentCommentId={props.currentCommentId}
+                    level={props.level}
+                />
             }
-
         </div>
     );
 }

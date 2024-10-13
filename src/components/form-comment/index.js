@@ -1,39 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { cn as bem } from '@bem-react/classname';
 import useTranslate from '../../hooks/use-translate';
+import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
-import { Form } from 'react-router-dom';
 
-function FormComment({ mode, title, id, setIdActiveAnswer = () => {}, sendComment, type }) {
+function FormComment({ mode, title, id = '', sendComment, type, exists, setFormCommentIsActive = () => {}, currentCommentId, level = null }) {
     const cn = bem('FormComment');
     const { t } = useTranslate();
+    const navigate = useNavigate();
     const [text, setText] = useState('');
 
     function handleCansel(e) {
         e.preventDefault();
-        setIdActiveAnswer(null)
+        setFormCommentIsActive();
     }
-
+    function signIn() {
+        navigate('/login', { state: { back: location.pathname }});
+    }
+    
     function handleAnswer(e) {
         e.preventDefault();
-        sendComment({ text, parent: { _id: id, _type: type } });
+        if (!text.replace(/\s+/g, '')) {
+            return;
+        }
+        if (mode === 'answer') {
+            sendComment({ text, parent: { _id: currentCommentId, _type: type } });
+        }
+        else {
+            sendComment({ text, parent: { _id: id, _type: type } });
+        }
     }
-    return ( 
-        <form className={cn()}>
-            <h6 className={cn('title')}>{ title }</h6>
-            <textarea className={cn('textarea')} rows="5" onChange={e => setText(e.target.value)} value={text}></textarea>
-            <div className={cn('actions')}>
-                <button className={cn('submit')} onClick={handleAnswer}>{t('form.comment.submit')}</button>
-                {
-                    mode === 'answer' ?
-                    <button className={cn('cancel')} onClick={handleCansel}>{t('form.answer.cancel')}</button>
-                    :
-                    null
-                }
-            </div>
-        </form>
-     );
+
+    const levelClass = useMemo(() => {
+        if (level) {
+            return level === 10 ? 10 : level + 1
+        }
+    }, [level])
+    return (     
+        <>
+            {
+                exists ?
+                <form className={cn() + ' ' + cn(`level-${levelClass}`)}>
+                {/* <form className={cn()}> */}
+                    <h6 className={cn('title')}>{ title }</h6>
+                    <textarea className={cn('textarea')} rows="5" onChange={e => setText(e.target.value)} value={text}></textarea>
+                    <div className={cn('actions')}>
+                        <button className={cn('submit')} onClick={handleAnswer}>{t('form.comment.submit')}</button>
+                        {
+                            mode === 'answer' ?
+                            <button onClick={handleCansel}>{t('form.answer.cancel')}</button>
+                            :
+                            null
+                        }
+                    </div>
+                </form>
+                :
+                <>
+                    {
+                        mode === 'answer' ?
+                        <div className={cn('login')}> <a onClick={signIn}>Войдите</a>, чтобы иметь возможность ответить. 
+                            <span className={cn('cancel')} onClick={handleCansel}> Отмена</span>
+                        </div>
+                        :
+                        <div className={cn('login')}> <a onClick={signIn}>Войдите</a>, чтобы иметь возможность комментировать</div>
+                    }
+                </>
+            }
+        </>
+    );
 }
 
 FormComment.propTypes = {
@@ -45,4 +80,4 @@ FormComment.propTypes = {
     type: PropTypes.string
 }
 
-export default FormComment;
+export default React.memo(FormComment);

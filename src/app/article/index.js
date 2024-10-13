@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
@@ -15,8 +15,6 @@ import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
 import commentsActions from '../../store-redux/comments/actions';
 import Comments from '../../containers/comments';
-import treeToList from '../../utils/tree-to-list';
-import listToTree from '../../utils/list-to-tree';
 
 function Article() {
   const store = useStore();
@@ -34,8 +32,6 @@ function Article() {
     state => ({
       article: state.article.data,
       waiting: state.article.waiting,
-      comments: state.comments.data,
-      count: state.comments.count,
       waitingComments: state.comments.waiting,
     }),
     shallowequal,
@@ -48,20 +44,6 @@ function Article() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
   };
 
-  const options = {
-    comments: useMemo(
-      () => [
-        ...treeToList(listToTree(select.comments), (item, level) => ({
-          name: item.author?.profile?.name,
-          datetime: item.dateCreate,
-          value: item._id,
-          text: item.text,
-          level: level,
-        })),
-      ],
-      [select.comments],
-    ),
-  };
   return (
     <PageLayout>
       <TopHead />
@@ -73,7 +55,7 @@ function Article() {
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
       </Spinner>
       <Spinner active={select.waitingComments}>
-        <Comments comments={options.comments} count={select.count} productId={params.id} />
+        <Comments />
       </Spinner>
     </PageLayout>
   );

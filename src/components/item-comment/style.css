@@ -21,6 +21,30 @@
     margin-left: 90px;
     width: calc(100% - 90px);
 }
+.ItemComment-level-5 {
+    margin-left: 120px;
+    width: calc(100% - 120px);
+}
+.ItemComment-level-6 {
+    margin-left: 150px;
+    width: calc(100% - 150px);
+}
+.ItemComment-level-7 {
+    margin-left: 180px;
+    width: calc(100% - 180px);
+}
+.ItemComment-level-8 {
+    margin-left: 210px;
+    width: calc(100% - 210px);
+}
+.ItemComment-level-9 {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+}
+.ItemComment-level-10 {
+    margin-left: 270px;
+    width: calc(100% - 270px);
+}
 
 .ItemComment-header {
     display: flex;
@@ -33,6 +57,9 @@
     font-weight: bold;
     font-size: 12px;
 }
+.ItemComment-user-self {
+    color: #666666;
+}
 
 .ItemComment-datetime {
     font-size: 12px;
@@ -41,6 +68,7 @@
 
 .ItemComment-text {
     font-size: 14px;
+    word-wrap: break-word;
 }
 
 .ItemComment-answer {
