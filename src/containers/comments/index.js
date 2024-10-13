@@ -3,7 +3,6 @@ import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useParams } from 'react-router-dom';
 import ItemComment from '../../components/item-comment';
-import { cn as bem } from '@bem-react/classname';
 import useTranslate from '../../hooks/use-translate';
 import useSelector from '../../hooks/use-selector';
 import { useSelector as useSelectorRedux } from 'react-redux';
@@ -14,10 +13,10 @@ import commentsActions from '../../store-redux/comments/actions';
 import FormComment from '../../components/form-comment';
 import treeToList from '../../utils/tree-to-list';
 import listToTree from '../../utils/list-to-tree';
-import './style.css';
+import CommentsLayout from '../../components/comments-layout';
+import CommentsList from '../../components/comments-list';
 
 function Comments() {
-    const cn = bem('Comments');
     const { t } = useTranslate();
     const store = useStoreRedux();
     const dispatch = useDispatch();
@@ -25,7 +24,7 @@ function Comments() {
 
     const select = useSelector(state => ({
         exists: state.session.exists,
-        name: state.session.user.profile.name,
+        name: state.session.user.profile?.name,
     }));
     const selectRedux = useSelectorRedux(state => ({
         count: state.comments.count,
@@ -74,9 +73,8 @@ function Comments() {
     };
 
     return ( 
-        <div className={cn()}>
-            <h2 className={cn('header')}>{t('comments.title')} ({selectRedux.count})</h2>
-            <div className={cn('list')}>
+        <CommentsLayout count={selectRedux.count} title={t('comments.title')}>
+            <CommentsList>
                 {
                     options.comments.map((item, index) => (
 
@@ -102,7 +100,7 @@ function Comments() {
                       
                     ))
                 }
-            </div>
+            </CommentsList>
             {
                 selectRedux.formCommentIsActive &&
                 <FormComment 
@@ -114,7 +112,7 @@ function Comments() {
                     exists={select.exists}
                 />
             }
-        </div>
+        </CommentsLayout>
      );
 }
 

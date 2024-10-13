@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { cn as bem } from '@bem-react/classname';
 import useTranslate from '../../hooks/use-translate';
@@ -10,7 +10,14 @@ function FormComment({ mode, title, id = '', sendComment, type, exists, setFormC
     const { t } = useTranslate();
     const navigate = useNavigate();
     const [text, setText] = useState('');
+    const formRef = useRef(null);
 
+    useEffect(() => {
+        if (formRef.current && mode === 'answer') {
+            formRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [])
+    
     function handleCansel(e) {
         e.preventDefault();
         setFormCommentIsActive();
@@ -32,17 +39,11 @@ function FormComment({ mode, title, id = '', sendComment, type, exists, setFormC
         }
     }
 
-    const levelClass = useMemo(() => {
-        if (level) {
-            return level === 10 ? 10 : level + 1
-        }
-    }, [level])
     return (     
         <>
             {
                 exists ?
-                <form className={cn() + ' ' + cn(`level-${levelClass}`)}>
-                {/* <form className={cn()}> */}
+                <form className={cn()} ref={formRef}>
                     <h6 className={cn('title')}>{ title }</h6>
                     <textarea className={cn('textarea')} rows="5" onChange={e => setText(e.target.value)} value={text}></textarea>
                     <div className={cn('actions')}>

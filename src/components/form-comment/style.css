@@ -6,43 +6,6 @@
     margin-top: 30px;
 }
 
-.FormComment-level-2{
-    margin-left: 30px;
-    width: calc(100% - 30px);
-}
-.FormComment-level-3 {
-    margin-left: 60px;
-    width: calc(100% - 60px);
-}
-.FormComment-level-4 {
-    margin-left: 90px;
-    width: calc(100% - 90px);
-}
-.FormComment-level-5 {
-    margin-left: 120px;
-    width: calc(100% - 120px);
-}
-.FormComment-level-6 {
-    margin-left: 150px;
-    width: calc(100% - 150px);
-}
-.FormComment-level-7 {
-    margin-left: 180px;
-    width: calc(100% - 180px);
-}
-.FormComment-level-8 {
-    margin-left: 210px;
-    width: calc(100% - 210px);
-}
-.FormComment-level-9 {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-}
-.FormComment-level-10 {
-    margin-left: 270px;
-    width: calc(100% - 270px);
-}
-
 .FormComment-title {
     font-size: 12px;
     margin: 0;
